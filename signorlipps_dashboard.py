@@ -76,35 +76,24 @@ def plot_true_ranges(file, mu, sigma):
 first_text = pn.pane.Markdown("""
 
 # Paleontological Evidence for a Bolide Impact:
-## An exploration of the Signor–Lipps Effect
- 
-Extinctions are classified as one of two end-member types: gradual or catastrophic; gradual extinctions are generally attributed to a slow, steady forcing factor driven by Earth processes (e.g., climate change) whereas catastrophic 
-extinctions necessarily invoke a single event, such as a bolide impact (Smit and Hertogen, 1980). For the Cretaceous-Paleogene extinction, extinction on both of these time scales (protracted and immediate) are required to depict the full 
-range of biological crisis at this time. On the one hand, paleontological data clearly indicate gradual declines in diversity within various invertebrate groups over the last 1 to 20 million years prior to the K-P boundary. For these 
-protracted extinctions, stratigraphic analysis suggests that the initiation of the terminal Cretaceous extinctions may have been connected to:
+
+Extinctions are classified as one of two end-member types: gradual or catastrophic; gradual extinctions are generally attributed to a slow, steady forcing factor driven by Earth processes (e.g., climate change) whereas catastrophic extinctions necessarily invoke a single event, such as a bolide impact (Smit and Hertogen, 1980). For the Cretaceous-Paleogene extinction, extinction on both of these time scales (protracted and immediate) are required to depict the full range of biological crisis at this time. On the one hand, paleontological data clearly indicate gradual declines in diversity within various invertebrate groups over the last 1 to 20 million years prior to the K-P boundary. For these protracted extinctions, stratigraphic analysis suggests that the initiation of the terminal Cretaceous extinctions may have been connected to:
 
 1. Widespread deterioration of global marine environments during large-scale eustatic fall and epicontinental regression.
 2. Rapid changes in ocean chemistry and ocean circulation patterns.
 3. Rapid temperature fluctuations which occurred during the middle and late Maastrichtian, i.e. last several million years of the Cretaceous (Smit and Hertogen, 1980).
  
-On the other hand, there exists substantial paleontological evidence that some groups underwent sudden extinctions precisely at the iridium anomaly and exhibit no pre-extinction gradual demise. When studying the fossil record, we have to 
-remember that it is very incomplete. The preservation of a taxon in the fossil record depends on many factors, including the abundance of the organisms, whether it had a skeleton or not, the environment in which it lived, the rate of 
-sediment accumulation, the efficiency of scavenging organisms, the chemistry of the sediments and porewaters, and the diagenetic history of the sediments. For this portion of the lab we are going to concentrate on the following question: 
-given a probability of preservation that is less than 100% and independent evidence for a mass extinction, what information can we obtain from an incomplete fossil record?
+On the other hand, there exists substantial paleontological evidence that some groups underwent sudden extinctions precisely at the iridium anomaly and exhibit no pre-extinction gradual demise. When studying the fossil record, we have to remember that it is very incomplete. The preservation of a taxon in the fossil record depends on many factors, including the abundance of the organisms, whether it had a skeleton or not, the environment in which it lived, the rate of sediment accumulation, the efficiency of scavenging organisms, the chemistry of the sediments and porewaters, and the diagenetic history of the sediments. For this portion of the lab we are going to concentrate on the following question: given a probability of preservation that is less than 100% and independent evidence for a mass extinction, what information can we obtain from an incomplete fossil record?
 
 ## Simulation Explanation
  
-We begin with a known fossil record and ‘degrade’ it to simulate taphonomy and the uneven preservation associated with the fossil record. There are 30 taxa with 50 time points. After 30 time points we impose an extinction event on all 
-taxa. Look at the plot of the "True Ranges". This is a 30x50 matrix where ones record a genus presence and zeros record absence. We are going to simulate their preservation as fossils in a sedimentary sequence that includes 50 sedimentary 
-beds (increasing with depth, like in a bore hole) that capture a sample of the biota at a given time point with the event of sedimentation.
+We begin with a known fossil record and ‘degrade’ it to simulate taphonomy and the uneven preservation associated with the fossil record. There are 30 taxa with 50 time points. After 30 time points we impose an extinction event on all taxa. Look at the plot of the "True Ranges". This is a 30x50 matrix where ones record a genus presence and zeros record absence. We are going to simulate their preservation as fossils in a sedimentary sequence that includes 50 sedimentary beds (increasing with depth, like in a bore hole) that capture a sample of the biota at a given time point with the event of sedimentation.
 
 """)
 
 second_text = pn.pane.Markdown("""
 
-If you'd like, take a look at the code blocks on this page that produce these interactive graphics. Note that the code is commented so you can see the logic behind each step. All good code is clearly commented. Go through each line 
-individually and make sure you understand what each step is accomplishing. In this exercise, the preservation of each taxon is the number of beds with fossils divided by the fossil range, and the diversity of each bed is the total number 
-of taxa whose range includes that bed.
+If you'd like, take a look at the [code that produces these interactive graphics](https://github.com/CalvinRusley/signorlipps/blob/main/signorlipps_dashboard.py). Note that the code is commented so you can see the logic behind each step. All good code is clearly commented. Go through each line individually and make sure you understand what each step is accomplishing. In this exercise, the preservation of each taxon is the number of beds with fossils divided by the fossil range, and the diversity of each bed is the total number of taxa whose range includes that bed.
  
 ## Simulation Analysis
  
@@ -114,29 +103,23 @@ Change the mean taxon specific taphonomy factor (µ) to 0.55 and the standard de
 
 ### Question 2: 
 
-Which taxon has the most complete fossil record in your synthetic dataset? Which has the least? Do these correspond to taxa with the highest and lowest preservability? Why might they not? Also, give two examples of extant taxa that have 
-good preservation potential and poor preservation potential.
+Which taxon has the most complete fossil record in your synthetic dataset? Which has the least? Do these correspond to taxa with the highest and lowest preservability? Why might they not? Also, give two examples of extant taxa that have good preservation potential and poor preservation potential.
 
 ### Question 3: 
 
-It is time to weigh in on the accuracy of the fossil record. Does your plot of diversity over time (assuming constant sedimentation rate for the whole section) reveal a rapid mass extinction of all the taxa between beds 20 and 21? Explain 
-why or why not. 
+It is time to weigh in on the accuracy of the fossil record. Does your plot of diversity over time (assuming constant sedimentation rate for the whole section) reveal a rapid mass extinction of all the taxa between beds 20 and 21? Explain why or why not. 
 
 ### Question 4: 
 
-Run your script again with a more realistic preservation probability (µ and σ). Hint: recall from an earlier class lecture. What values did you choose? Compare these results with those from Question 11. Soft-bodied organisms are always 
-characterized by low preservation potential. But, how might you learn about soft-bodied organisms with no body fossils to study?
+Run your script again with a more realistic preservation probability (µ and σ). Hint: recall from an earlier class lecture. What values did you choose? Compare these results with those from Question 11. Soft-bodied organisms are always characterized by low preservation potential. But, how might you learn about soft-bodied organisms with no body fossils to study?
  
 ### Question 5: 
 
-Now switch the input file to true_ranges2.txt, and simulate the fossil record for a mass extinction that occurs in two pulses. What combination of taxon specific taphonomy factors (mu and std) are required to clearly resolve the two pulses 
-(i.e. – what is the lower limit on preservation probability to see these features)? 
+Now switch the extinction type to "Two-stage", and simulate the fossil record for a mass extinction that occurs in two pulses. What combination of taxon specific taphonomy factors (mu and std) are required to clearly resolve the two pulses (i.e. – what is the lower limit on preservation probability to see these features)? 
  
 ### Summary: 
 
-The combination of an incomplete fossil record coupled with sudden or catastrophic events can lead to what paleontologists call the Signor-Lipps effect (named for its discoverers). When there is a sudden extinction, like the one that 
-occurred between beds 20 and 21, the small but finite probability of preservation smears out the pattern, making a sudden extinction look gradual. You can probably imagine a preservational change making a gradual extinction look sudden as 
-well. There is a similar effect with the origination of taxa, due to the small probability of preserving the very first organism of a group. This effect is affectionately known as the Sppil-Rongis effect.
+The combination of an incomplete fossil record coupled with sudden or catastrophic events can lead to what paleontologists call the Signor-Lipps effect (named for its discoverers). When there is a sudden extinction, like the one that occurred between beds 20 and 21, the small but finite probability of preservation smears out the pattern, making a sudden extinction look gradual. You can probably imagine a preservational change making a gradual extinction look sudden as well. There is a similar effect with the origination of taxa, due to the small probability of preserving the very first organism of a group. This effect is affectionately known as the Sppil-Rongis effect.
 
 """)
 
