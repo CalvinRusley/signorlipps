@@ -60,19 +60,26 @@ hv.extension('bokeh')
 taphonomic_randomness = np.random.randn(30) #generate 30 normally distributed random numbers ahead of time so that you don't get a new set every time you refresh the plots
 secondrowplot_width = 600
 
+#making the matrices from scratch to avoid dealing with input files
+ranges1 = np.tile(np.concatenate((np.zeros((1,19)), np.ones((1,50-19))), axis=1), (30, 1)).swapaxes(0,1)
+extinction2 = np.tile(np.concatenate((np.zeros((1,30)), np.ones((1,50-30))), axis=1), (10, 1))
+extinction1 = np.tile(np.concatenate((np.zeros((1,19)), np.ones((1,50-19))), axis=1), (20, 1))
+ranges2 = np.concatenate((extinction1, extinction2), axis=0).swapaxes(0,1)
+extinctions = {'One-stage': ranges1, 'Two-stage': ranges2}
+
 #use a heatmap to approximate a matplotlib sparsity plot that will behave better with panel
 def hacky_sparsity(matrix, name):
     return hv.HeatMap(([str(i) for i in range(1, 31)], [str(i) for i in range(1, 51)], matrix)).opts(invert_yaxis=True, frame_width=250, frame_height=300).opts(cmap='blues').opts(xlabel = 'Taxa', ylabel = 'Beds', title = name)
 
 ###initialize each of the control mechanisms for the interactive plots
-file_selector = pn.widgets.Select(name='Input file', options=['true_ranges.txt', 'true_ranges2.txt']) #file_selector allows you to toggle which data file you're using
+file_selector = pn.widgets.Select(name='Extinction type', options=['One-stage', 'Two-stage'])
 mu_slider = pn.widgets.FloatSlider(name="µ", start=0, end=1, step=0.01, value=0.75) #mu_slider controls the mean likelihood of preservation for the 30 taxa
 sigma_slider = pn.widgets.FloatSlider(name="σ", start=0, end=1, step=0.01, value=0.25) #sigma_slider controls the standard deviation in the likelihood of preservation for the 30 taxa
 widgets = pn.Column(pn.Spacer(height=30), file_selector, pn.Spacer(height=30), mu_slider, pn.Spacer(height=15), sigma_slider, width=300) #group the controls together
 
 @pn.depends(file_selector.param.value, mu_slider.param.value, sigma_slider.param.value) #declares that the following function will depend on the values of the widgets previously defined
 def calc_fossil_ranges(file, mu, sigma):
-    true_ranges = np.loadtxt(file, delimiter='\t') #load the chosen file as a matrix
+    true_ranges = extinctions[file] #load the chosen file as a matrix
     num_beds, num_taxa = true_ranges.shape #grab the numbers of taxa and beds for later use
     x = random.rand(num_beds,num_taxa) #generate a matrix of the same size as the input data filled with random numbers between 0 and 1
     y = x*true_ranges #multiply the random matrix by the input data, which eliminates the random values outside of the "true ranges" of each of the taxa
@@ -87,7 +94,7 @@ def calc_fossil_ranges(file, mu, sigma):
 def plot_fossil_range(file, mu, sigma):
     fossil_occurences, fossil_ranges, true_ranges, num_beds, num_taxa, Dtaph = calc_fossil_ranges(file, mu, sigma) #compute the stats you'll need
     plot_df = pd.DataFrame({'Fossil diversity' : fossil_ranges.sum(axis=1),'True diversity' : true_ranges.sum(axis=1),'Stratigraphic height (bed #)' : np.arange(num_beds)}) #calculate the diversities and make a dataframe for plotting ease
-    return hv.Curve(data=plot_df,kdims=['Stratigraphic height (bed #)','Fossil diversity']).opts(frame_height=300,frame_width=secondrowplot_width,tools=['hover'],invert_xaxis=True) #create the plot
+    return hv.Curve(data=plot_df,kdims='Stratigraphic height (bed #)', vdims='Fossil diversity').opts(frame_height=300,frame_width=secondrowplot_width,tools=['hover'],invert_xaxis=True) #create the plot
 
 @pn.depends(file_selector.param.value, mu_slider.param.value, sigma_slider.param.value)
 def plot_stem(file, mu, sigma):
@@ -186,7 +193,6 @@ row1 = pn.Row(plot_true_ranges, plot_fossil_occ, plot_fossil_ranges, widgets)
 row2 = pn.Row(plot_stem, plot_fossil_range)
 dashboard = pn.Column(first_text, pn.Spacer(height=30), row1, pn.Spacer(height=35), row2, pn.Spacer(height = 25), second_text)
 dashboard.servable()
-
 
 
 await write_doc()
